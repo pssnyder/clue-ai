@@ -8,7 +8,9 @@
 - **Mr. Green:** An anxious, cautious, and clumsy rule-follower. A businessman, he struggles with taking risks and being impulsive, even in dangerous situations. Well-known for his erratic behavior and tendency to overanalyze situations.
 - **Mrs. Peacock:** A high-society socialite. She is the wealthy, neurotic, and slightly theatrical wife of a senator. Deeply emotional and prone to dramatic outbursts. Gossip is her game, sometimes to her advantage, but often to her detriment.
 - **Professor Plum:** An arrogant and eccentric academic. Mentally capable but absent-minded, coupled with a brilliant yet eccentric background as a scientist. An enigmatic figure who manipulates others through his intellect. His hidden agendas can reveal others' motives through subtle clues.
- 
+
+## Game Simulation Overview
+
 ### How to Run and Watch Your Simulation
 
 1. **Launch the Game**:
