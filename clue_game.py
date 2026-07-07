@@ -207,16 +207,17 @@ def run_simulation():
     except ValueError:
         pace = 3.5
         
+    shared_test_agent = "clue_agent_v1"
+
     if mode_selection == "2":
         p1 = Player("Miss Scarlet", "R", (3, 1), is_human=True)
     else:
-        p1 = Player("Miss Scarlet", "R", (3, 1), is_human=False, ai_type="miss_scarlet")
-        
-    p2 = Player("Colonel Mustard", "M", (1, 7), is_human=False, ai_type="colonel_mustard")
-    p3 = Player("Mrs. White", "W", (7, 1), is_human=False, ai_type="mrs_white")
-    p4 = Player("Mr. Green", "G", (9, 3), is_human=False, ai_type="mr_green")
-    p5 = Player("Mrs. Peacock", "P", (7, 9), is_human=False, ai_type="mrs_peacock")
-    p6 = Player("Professor Plum", "U", (3, 9), is_human=False, ai_type="professor_plum")
+        p1 = Player("Miss Scarlet", "R", (3, 1), is_human=False, ai_type=shared_test_agent)
+    p2 = Player("Colonel Mustard", "M", (1, 7), is_human=False, ai_type=shared_test_agent)
+    p3 = Player("Mrs. White", "W", (7, 1), is_human=False, ai_type=shared_test_agent)
+    p4 = Player("Mr. Green", "G", (9, 3), is_human=False, ai_type=shared_test_agent)
+    p5 = Player("Mrs. Peacock", "P", (7, 9), is_human=False, ai_type=shared_test_agent)
+    p6 = Player("Professor Plum", "U", (3, 9), is_human=False, ai_type=shared_test_agent)
     
     game.players = [p1, p2, p3, p4, p5, p6]
     game.distribute_clues()

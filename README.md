@@ -24,6 +24,11 @@
    * You'll see the player tokens (`A`, `V`, `S`) navigate the ASCII grid toward doors and rooms.
    * On the right-hand panel, you can read their conversational comments, public suggestions, and game events as they happen in real-time.
 
+### Persona-Injected Single-Agent Test Mode
+For the first round of testing, the simulation now routes all AI-controlled turns through one lightweight shared agent. That agent receives the active player's persona metadata from the bridge on each turn, so the same model can role-play as Miss Scarlet, Mrs. White, Professor Plum, and the rest without needing separate model instances.
+
+This keeps CPU and memory usage low while you validate the behavior before expanding to dedicated per-character models.
+
 ### Available Models
 | Model Name | Chosen Character | Size | Container | Port Mapping |
 | ---|---|---| --- | --- |
@@ -33,6 +38,7 @@
 | deepseek-r1:1.5b | Professor Plum | 1.1 GB | deepseekr1 | 0.0.0.0:11438->11434/tcp, [::]:11438->11434/tcp |
 | hermes3:3b | Mrs. Peacock | 2.0 GB | hermes3b | 0.0.0.0:11439->11434/tcp, [::]:11439->11434/tcp |
 | llama2-uncensored:7b | Colonel Mustard | 3.8 GB | llama7b | 0.0.0.0:11440->11434/tcp, [::]:11440->11434/tcp |
+| llava:7b | Unused | 4.7 | llava7b | 0.0.0.0:11441->11434/tcp, [::]:11440->11434/tcp |
 
 #### Example: Running the `llama3.2:3b` Model
 ```bash

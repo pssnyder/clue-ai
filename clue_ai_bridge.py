@@ -1,14 +1,62 @@
-import json
 import importlib
+import inspect
 import random
 
+
 class ClueAIBridge:
+    PERSONA_LIBRARY = {
+        "Miss Scarlet": {
+            "name": "Miss Scarlet",
+            "description": "A seductive, dramatic, and manipulative socialite who wants to dominate the room and control the narrative.",
+            "voice": "flirty, sharp, and theatrical"
+        },
+        "Colonel Mustard": {
+            "name": "Colonel Mustard",
+            "description": "A pompous, military-minded opportunist who speaks bluntly and jumps to bold conclusions.",
+            "voice": "boastful, impatient, and combative"
+        },
+        "Mrs. White": {
+            "name": "Mrs. White",
+            "description": "The tragic, morbid, dry-witted head housekeeper who speaks with deadpan humor and keen observation.",
+            "voice": "deadpan, wry, and quietly grim"
+        },
+        "Mr. Green": {
+            "name": "Mr. Green",
+            "description": "An anxious, cautious rule-follower who overthinks every decision and worries about consequences.",
+            "voice": "nervous, polite, and hesitant"
+        },
+        "Mrs. Peacock": {
+            "name": "Mrs. Peacock",
+            "description": "A high-society socialite who is theatrical, emotional, and deeply interested in gossip and appearances.",
+            "voice": "dramatic, gossip-driven, and theatrical"
+        },
+        "Professor Plum": {
+            "name": "Professor Plum",
+            "description": "An arrogant academic with a brilliant mind and a subtly manipulative, eccentric edge.",
+            "voice": "aloof, cerebral, and smug"
+        },
+    }
+
+    @staticmethod
+    def get_persona(player):
+        persona_name = getattr(player, "name", None)
+        persona = ClueAIBridge.PERSONA_LIBRARY.get(persona_name)
+        if persona:
+            return persona
+
+        return {
+            "name": persona_name or "Unknown Character",
+            "description": "A thoughtful and strategic player in Clue.",
+            "voice": "measured and observant"
+        }
+
     @staticmethod
     def construct_observation(game, current_player):
         """Translates current board coordinates and game elements to JSON observation logs."""
         current_room = game.get_room_at_coords(current_player.coords)
         roll_value = random.randint(2, 4)
         valid_moves = game.get_valid_moves(current_player.coords, roll_value)
+        persona = ClueAIBridge.get_persona(current_player)
         
         return {
             "player_info": {
@@ -18,7 +66,10 @@ class ClueAIBridge:
                 "current_room": current_room,
                 "hand": current_player.hand,
                 "valid_coordinate_moves": valid_moves,
-                "movement_roll": roll_value
+                "movement_roll": roll_value,
+                "persona_name": persona["name"],
+                "persona_description": persona["description"],
+                "persona_voice": persona.get("voice", "")
             },
             "board_map": {
                 "rooms": {r: d["coords"] for r, d in game.rooms.items()},
@@ -50,7 +101,13 @@ class ClueAIBridge:
 
         try:
             agent_class = getattr(agent_module, "ClueAgent")
-            agent_instance = agent_class(player.name)
+            persona = ClueAIBridge.get_persona(player)
+            init_signature = inspect.signature(agent_class.__init__)
+            init_params = init_signature.parameters
+            if "persona" in init_params:
+                agent_instance = agent_class(player.name, persona=persona)
+            else:
+                agent_instance = agent_class(player.name)
         except Exception as e:
             game.add_log("SYSTEM", f"Failed to instantiate {player.name}: {e}")
             return False
